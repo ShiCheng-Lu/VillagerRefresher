@@ -1,22 +1,18 @@
 from PIL import Image, ImageGrab
-
+import keyboard
 import pydirectinput
 import time
+import const
 
-in_trade_image = Image.open("in_trade.png")
-
-top = 684
-left = 1794
-width = 52
-height = 2
+menu_check_img = Image.open("menu_imgs/menu_check.png")
 
 # check if the trading menu is opened
 def in_trade():
-    image = ImageGrab.grab(bbox=(left, top, left + width, top + height))
+    image = ImageGrab.grab(const.MENU_CHECK.BOX)
     # compare the two image
-    for x in range(52):
-        for y in range(2):
-            if (in_trade_image.getpixel((x, y)) != image.getpixel((x, y))):
+    for x in range(4):
+        for y in range(4):
+            if (menu_check_img.getpixel((x, y)) != image.getpixel((x * const.MENU_SIZE, y * const.MENU_SIZE,))):
                 return False
     return True
 
@@ -24,7 +20,6 @@ def in_trade():
 def wait_for_job():
     while (not in_trade()):
         pydirectinput.click(button='right')
-        time.sleep(0.2)
 
 # remove the villager's job
 def remove_job():
