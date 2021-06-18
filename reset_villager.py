@@ -30,4 +30,3 @@ def reset_villager():
     remove_job()
     time.sleep(1) 
     wait_for_job()
-

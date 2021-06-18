@@ -119,5 +119,3 @@ if __name__ == "__main__":
     set_check_boxes()
     
     ImageGrab.grab(const.TRADE_2.BOX).show()
-    
-    
