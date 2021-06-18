@@ -1,39 +1,32 @@
 from PIL import Image, ImageGrab
 # import mouse
-import pyautogui
 import pydirectinput
-import time
 import keyboard
 
 import enchants
+import const
 import check_villager
 import reset_villager
-
-top = 875
-left = 1200
-width = 1100
-height = 110
+import setup
 
 # get an image of the second trade slot
-def get_image():
-    time.sleep(0.1)
-    pydirectinput.moveTo(1600, 920)
-    pydirectinput.moveTo(1620, 920)
 
-    return ImageGrab.grab(bbox=(left, top, left + width, top + height))
+if __name__ == "__main__":
+    enchants.want("efficiency")
+    enchants.want("aqua_affinity")
+    enchants.want("thorns")
+    enchants.want("respiration")
 
-running = True
+    # start set up and program when esc is pressed
+    keyboard.wait('backspace')
 
-enchants.want("efficiency")
-
-time.sleep(3)
-while (running):
-    reset_villager.reset_villager()
-    image = get_image()
-
-    if check_villager.check_villager(image):
-        break
+    setup.setup_all()
     pydirectinput.press('e')
+    while (True):
+        reset_villager.reset_villager()
 
-    if keyboard.is_pressed('backspace'):
-        break
+        if check_villager.check_villager():
+            break
+        pydirectinput.press('e')
+        if keyboard.is_pressed('backspace'):
+            quit()

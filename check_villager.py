@@ -1,7 +1,7 @@
 from PIL import Image, ImageGrab
-
+import pydirectinput
 import time
-import enchants
+import const
 
 GREY = (170, 170, 170)
 WHITE = (255, 255, 255)
@@ -19,20 +19,36 @@ def print_data(data):
     print(out)
 
 # extract the text from an image
-def extract_content(image, location, size, colour=(255, 255, 255)):
-    data = [[False for x in range(size[1])] for y in range(size[0])]
-    for x in range(size[0]):
-        for y in range(size[1]):
-            if image.getpixel((location[0] + 5 * x, location[1] + 5 * y)) == colour:
+def extract_content(image, colour=const.WHITE):
+    size_x = image.width  // const.MENU_SIZE
+    size_y = image.height // const.MENU_SIZE
+
+    data = [[False for y in range(size_y)] for x in range(size_x)]
+    for x in range(size_x):
+        for y in range(size_y):
+            if image.getpixel((x * const.MENU_SIZE, y * const.MENU_SIZE)) == colour:
                 data[x][y] = True
     return data
 
-# check to see if a enchanted book should be kept
-def check_book(image):
-    # check if the book is desired
-    enchant = extract_content(image, (490, 65), (120, 8), GREY) # max length of enchat is 120
+'''
+def matches_enchant(enchant, image):
+    for x in range(120):
+        for y in range(8):
+            if enchant[x][y]:
+                if image.getpixel((x * const.MENU_SIZE, y * const.MENU_SIZE)) != const.TEXT_GREY:
+                    return False
+    return True
+'''
 
-    if (enchant in enchants.wanted):
+# check to see if a enchanted book should be kept
+def check_book():
+    pydirectinput.move(1, 1)
+    pydirectinput.moveTo(*const.MOUSE_2)
+    image = ImageGrab.grab(const.TRADE_2.BOX)
+    # check if the book is desired
+    enchant = extract_content(image, GREY) # max length of enchat is 120
+
+    if (enchant in const.WANTS):
         return True
     print_data(enchant)
     return False
@@ -45,5 +61,5 @@ def check_price():
     return True
 
 # check the villager for any trade that are wanted
-def check_villager(image):
-    return check_book(image) and check_price()
+def check_villager():
+    return check_book() and check_price()

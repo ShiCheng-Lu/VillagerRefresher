@@ -1,7 +1,6 @@
 from PIL import Image, ImageGrab
 
-
-wanted = []
+import const
 
 # add an enchantment to the wanted list
 # stop refreshing the villager when an enchantment from the wanted list occurs
@@ -11,7 +10,7 @@ def want(enchant):
 
     for x in range(120):
         for y in range(8):
-            if image.getpixel((x, y)) == (170, 170, 170):
+            if image.getpixel((x, y)) == const.TEXT_GREY:
                 data[x][y] = True
     
-    wanted.append(data)
+    const.WANTS.append(data)
