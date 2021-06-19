@@ -2,6 +2,7 @@ from PIL import Image, ImageGrab
 import keyboard
 import pydirectinput
 import time
+
 import const
 
 menu_check_img = Image.open("menu_imgs/menu_check.png")

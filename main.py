@@ -13,9 +13,8 @@ import setup
 
 if __name__ == "__main__":
     enchants.want("efficiency")
-    enchants.want("aqua_affinity")
-    enchants.want("thorns")
-    enchants.want("respiration")
+    enchants.want("power")
+    enchants.want("sharpness")
 
     # start set up and program when esc is pressed
     keyboard.wait('backspace')

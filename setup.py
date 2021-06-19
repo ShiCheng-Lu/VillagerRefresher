@@ -1,11 +1,11 @@
 from PIL import Image, ImageGrab
 
 import pyautogui # import this, very important
-
 import pygetwindow
 import pydirectinput
-import const
 import time
+
+import const
 
 def set_game_const():
     windows = pygetwindow.getWindowsWithTitle('Minecraft')
