@@ -2,6 +2,7 @@ from PIL import Image, ImageGrab
 # import mouse
 import pydirectinput
 import keyboard
+import time
 
 import enchants
 import const
@@ -9,16 +10,10 @@ import check_villager
 import reset_villager
 import setup
 
-# get an image of the second trade slot
 
-if __name__ == "__main__":
-    enchants.want("efficiency")
-    enchants.want("power")
-    enchants.want("sharpness")
-
-    # start set up and program when esc is pressed
-    keyboard.wait('backspace')
-
+def start_trade_sequence():
+    pydirectinput.click(button='right')
+    time.sleep(0.2)
     setup.setup_all()
     pydirectinput.press('e')
     while (True):
@@ -28,4 +23,24 @@ if __name__ == "__main__":
             break
         pydirectinput.press('e')
         if keyboard.is_pressed('backspace'):
-            quit()
+            break
+
+def main():
+    while True:
+        keyboard.wait('/')
+        parse = keyboard.get_typed_strings(keyboard.record('enter'))
+        args = next(parse).split(' ')
+        if args[0] == "autotrade" and len(args) >= 1:
+            const.WANTS = []
+            const.WANTS_STR = []
+            for i in range(1, len(args)):
+                try:
+                    enchants.want(args[i])
+                except:
+                    pass
+            time.sleep(0.1)
+            if len(const.WANTS) >= 0:
+                start_trade_sequence()
+
+if __name__ == "__main__":
+    main()

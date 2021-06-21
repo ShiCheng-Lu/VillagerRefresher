@@ -42,9 +42,11 @@ def matches_enchant(enchant, image):
 
 # check to see if a enchanted book should be kept
 def check_book():
-    pydirectinput.move(1, 1)
     pydirectinput.moveTo(*const.MOUSE_2)
+    pydirectinput.move(0, 1)
     image = ImageGrab.grab(const.TRADE_2.BOX)
+    # move to topleft, prevent accidental buying
+    pydirectinput.moveTo(const.MENU.LEFT, const.MENU.TOP)
     # check if the book is desired
     enchant = extract_content(image, GREY) # max length of enchat is 120
 

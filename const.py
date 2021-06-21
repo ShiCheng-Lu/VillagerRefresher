@@ -28,7 +28,7 @@ MENU_SIZE = 1
 # menu_check
 MENU_CHECK = _ScreenBox()
 # second trade
-MOUSE_2 = None
+MOUSE_2 = ()
 TRADE_2 = _ScreenBox()
 PRICE_2 = _ScreenBox()
 
@@ -40,3 +40,4 @@ WHITE       = (255, 255, 255)
 
 # enchants
 WANTS = []
+WANTS_STR = []
