@@ -82,8 +82,8 @@ def set_check_boxes():
 
     const.TRADE_2.LEFT   = const.MOUSE_2[0]   + get_text_left(image, const.TEXT_GREY)
     const.TRADE_2.RIGHT  = const.TRADE_2.LEFT + const.MENU_SIZE * 120
-    const.TRADE_2.TOP    = const.MOUSE_2[1]   + get_text_top(image, const.TEXT_GREY) + 1
-    const.TRADE_2.BOTTOM = const.TRADE_2.TOP  + const.MENU_SIZE * 8 + 1
+    const.TRADE_2.TOP    = const.MOUSE_2[1]   + get_text_top(image, const.TEXT_GREY)
+    const.TRADE_2.BOTTOM = const.TRADE_2.TOP  + const.MENU_SIZE * 8
     const.TRADE_2.set_attr()
     # move to topleft of menu
     pydirectinput.moveTo(const.MENU.LEFT, const.MENU.TOP)
