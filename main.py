@@ -7,6 +7,9 @@ import pydirectinput
 import numpy as np
 import time
 
+desired_enchantments = {
+    "mending": 10
+}
 
 DIALOG_BOX_COLOUR = (198, 198, 198)
 ITEM_BACKGROUND_COLOUR = (27, 12, 27)
@@ -136,11 +139,6 @@ def load_enchantments():
         text_filter = 1 - colour_filter(image, ITEM_BACKGROUND_COLOUR)
         image = crop(text_filter, find_bounds(text_filter, threshold=0))
         enchantments[enchantment_name] = image
-
-
-desired_enchantments = {
-    "mending": 32
-}
 
 prices = []
 
