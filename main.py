@@ -6,16 +6,91 @@ import keyboard
 import pydirectinput
 import numpy as np
 import time
+import pygetwindow
 
-desired_enchantments = {
-    "mending": 10
+best_enchantments = {
+    # "aqua_affinity": 5,
+    "bane_of_arthropods": 17,
+    "blast_protection": 14,
+    "channeling": 5,
+    # "depth_strider": 11,
+    # "efficiency": 17,
+    # "feather_falling": 14,
+    "fire_aspect": 8,
+    "fire_protection": 14,
+    "flame": 5,
+    # "fortune": 11,
+    # "frost_walker": 16,
+    "impaling": 17,
+    "infinity": 5,
+    "knockback": 8,
+    "looting": 11,
+    "loyalty": 11,
+    "luck_of_the_sea": 11,
+    "lure": 11,
+    # "mending": 10,
+    "multishot": 11,
+    # "piercing": 14,
+    "power": 17,
+    # "projectile_protection": 14,
+    "protection": 14,
+    # "punch": 8,
+    "quick_charge": 11,
+    "respiration": 11,
+    # "riptide": 11,
+    # "sharpness": 17,
+    # "silk_touch": 5,
+    "smite": 17,
+    # "thorns": 11,
+    "unbreaking": 11,
 }
+
+best_enchantments = {
+    # "aqua_affinity": 5,
+    # "bane_of_arthropods": 17,
+    # "blast_protection": 14,
+    # "channeling": 5,
+    # "depth_strider": 11,
+    # "efficiency": 17,
+    # "feather_falling": 14,
+    # "fire_aspect": 8,
+    # "fire_protection": 14,
+    # "flame": 5,
+    # "fortune": 11,
+    # "frost_walker": 16,
+    "impaling": 17,
+    # "infinity": 5,
+    # "knockback": 8,
+    # "looting": 11,
+    # "loyalty": 11,
+    # "luck_of_the_sea": 11,
+    # "lure": 11,
+    # "mending": 10,
+    # "multishot": 11,
+    # "piercing": 14,
+    "power": 17,
+    # "projectile_protection": 14,
+    "protection": 14,
+    # "punch": 8,
+    # "quick_charge": 11,
+    # "respiration": 11,
+    # "riptide": 11,
+    "sharpness": 17,
+    # "silk_touch": 5,
+    # "smite": 17,
+    # "thorns": 11,
+    "unbreaking": 11,
+}
+
+# desired_enchantments = {
+#     "mending": 10
+# }
+desired_enchantments = best_enchantments
 
 DIALOG_BOX_COLOUR = (198, 198, 198)
 ITEM_BACKGROUND_COLOUR = (27, 12, 27)
 TEXT_COLOUR = (197, 197, 197)
 PRICE_TEXT_COLOUR = (255, 255, 255)
-
 
 def crop(image, bounds):
     x_start, y_start, x_end, y_end = bounds
@@ -38,13 +113,18 @@ def find_bounds(image, threshold=0.01):
 
     return x_start, y_start, x_end + 1, y_end + 1
 
-
 def colour_filter(image, colour):
     return (image == colour).all(axis=2)
 
+def move_mouse(x, y):
+    '''
+    move mouse to a relative location in game
+    '''
+    pydirectinput.moveTo(x + window_mask[0], y + window_mask[1])
+    
 
 def move_to_trade():
-    image = np.array(ImageGrab.grab())
+    image = np.array(ImageGrab.grab(window_mask))
 
     image = colour_filter(image, DIALOG_BOX_COLOUR)
     x_start, y_start, x_end, y_end = find_bounds(image)
@@ -55,8 +135,8 @@ def move_to_trade():
     trade_location_x = (215/310) * x_start + (95/310) * x_end
     trade_location_y = 0.7 * y_start + 0.3 * y_end
 
-    pydirectinput.moveTo(int(trade_location_x) + 5, int(trade_location_y))
-    pydirectinput.moveTo(int(trade_location_x), int(trade_location_y))
+    move_mouse(int(trade_location_x) + 5, int(trade_location_y))
+    move_mouse(int(trade_location_x), int(trade_location_y))
     return True
 
 
@@ -116,14 +196,13 @@ def check_price(image):
 
 
 def check_trade():
-    image = np.array(ImageGrab.grab())
+    image = np.array(ImageGrab.grab(window_mask))
 
     enchant = check_enchant(image)
     if enchant == None:
         return False
 
     price = check_price(image)
-    print(price)
     return price <= desired_enchantments[enchant]
 
 
@@ -151,14 +230,29 @@ def load_prices():
     # print(image.shape)
     image = colour_filter(image, PRICE_TEXT_COLOUR)
 
-    for i in range(9):
+    for i in range(10):
         prices.append(image[:, 6 * i: 6 * (i + 1) - 1])
     prices = np.array(prices)
     # print(prices)
 
 
 running = True
+window_mask = None
 
+def load_window_mask(title):
+    global window_mask
+
+    for window in pygetwindow.getWindowsWithTitle(title):
+        if (window.title != title):
+            continue
+
+        window_mask = [
+            window.left + 50,
+            window.top + 50,
+            window.right - 50,
+            window.bottom - 50
+        ]
+        return
 
 def terminator(key):
     global running
@@ -167,11 +261,18 @@ def terminator(key):
 
 
 def main():
+    global window_mask
+
     keyboard.hook(terminator)
 
     load_enchantments()
     load_prices()
     keyboard.wait('/')
+    
+    window_mask = None
+    while window_mask == None:
+        load_window_mask("Minecraft")
+        time.sleep(1)
 
     while running:
         if check_trade():
@@ -180,10 +281,15 @@ def main():
         # refresh villager
         pydirectinput.press("e")
         pydirectinput.press('space')
-        time.sleep(1)
+        
+        window_mask = None
+        while window_mask == None:
+            load_window_mask("Minecraft")
+            time.sleep(0.5)
+
         while running and not move_to_trade():
             pydirectinput.click(button='right')
-            time.sleep(0.2)
+            time.sleep(0.5)
 
 
 if __name__ == "__main__":
