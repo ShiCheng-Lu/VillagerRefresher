@@ -46,46 +46,82 @@ best_enchantments = {
 }
 
 best_enchantments = {
-    # "aqua_affinity": 5,
-    # "bane_of_arthropods": 17,
-    # "blast_protection": 14,
-    # "channeling": 5,
-    # "depth_strider": 11,
-    # "efficiency": 17,
-    # "feather_falling": 14,
-    # "fire_aspect": 8,
-    # "fire_protection": 14,
-    # "flame": 5,
-    # "fortune": 11,
-    # "frost_walker": 16,
+    "aqua_affinity": 5,
+    "bane_of_arthropods": 17,
+    "blast_protection": 14,
+    "channeling": 5,
+    "depth_strider": 11,
+    "efficiency": 17,
+    "feather_falling": 14,
+    "fire_aspect": 8,
+    "fire_protection": 14,
+    "flame": 5,
+    "fortune": 11,
+    "frost_walker": 16,
     "impaling": 17,
-    # "infinity": 5,
-    # "knockback": 8,
-    # "looting": 11,
-    # "loyalty": 11,
-    # "luck_of_the_sea": 11,
-    # "lure": 11,
-    # "mending": 10,
-    # "multishot": 11,
-    # "piercing": 14,
+    "infinity": 5,
+    "knockback": 8,
+    "looting": 11,
+    "loyalty": 11,
+    "luck_of_the_sea": 11,
+    "lure": 11,
+    "mending": 10,
+    "multishot": 11,
+    "piercing": 14,
     "power": 17,
-    # "projectile_protection": 14,
+    "projectile_protection": 14,
     "protection": 14,
-    # "punch": 8,
-    # "quick_charge": 11,
-    # "respiration": 11,
-    # "riptide": 11,
+    "punch": 8,
+    "quick_charge": 11,
+    "respiration": 11,
+    "riptide": 11,
     "sharpness": 17,
-    # "silk_touch": 5,
-    # "smite": 17,
-    # "thorns": 11,
+    "silk_touch": 5,
+    "smite": 17,
+    "thorns": 11,
     "unbreaking": 11,
 }
 
-# desired_enchantments = {
-#     "mending": 10
-# }
-desired_enchantments = best_enchantments
+desired_enchantments = {
+    # "aqua_affinity": 5,
+    "bane_of_arthropods": 17,
+    "blast_protection": 14,
+    # "breach": 14, # new
+    "channeling": 5,
+    # "cleaving": 11, # new
+    # "depth_strider": 11,
+    # "density": 17, # new
+    # "efficiency": 17,
+    # "feather_dfalling": 14,
+    "fire_aspect": 8,
+    "fire_protection": 14,
+    "flame": 5,
+    # "fortune": 11,
+    # "frost_walker": 16,/e
+    "impaling": 17,
+    "infinity": 5,
+    "knockback": 8,
+    "looting": 11,
+    "loyalty": 11,
+    "luck_of_the_sea": 11,
+    "lure": 11,
+    # "mending": 10,
+    "multishot": 11,
+    # "piercing": 14,
+    # "power": 17,
+    # "projectile_protection": 14,
+    # "protection": 14,
+    # "punch": 8,
+    "quick_charge": 11,
+    "respiration": 11,
+    # "riptide": 11,
+    # "sharpness": 17,
+    "silk_touch": 5,
+    "smite": 17,
+    # "soul_speed": 22, # DNE
+    # "thorns": 11,
+    # "unbreakding": 11,
+}
 
 DIALOG_BOX_COLOUR = (198, 198, 198)
 ITEM_BACKGROUND_COLOUR = (27, 12, 27)
@@ -280,7 +316,11 @@ def main():
 
         # refresh villager
         pydirectinput.press("e")
-        pydirectinput.press('space')
+        time.sleep(0.2)
+        pydirectinput.keyDown('shift')
+        time.sleep(0.5)
+        pydirectinput.keyUp('shift')
+        pydirectinput.click(button='right')
         
         window_mask = None
         while window_mask == None:
